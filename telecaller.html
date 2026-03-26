@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinioRevive | Telecaller Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="telecaller.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-headset"></i>
+                <h2>FinioRevive</h2>
+            </div>
+            <div class="role-badge">
+                <i class="fas fa-phone-alt"></i> Telecaller
+            </div>
+
+            <ul>
+                <li onclick="showSection('dashboard', this)" class="active">
+                    <i class="fas fa-home"></i> Dashboard
+                </li>
+                <li onclick="showSection('calls', this)">
+                    <i class="fas fa-phone"></i> Call List
+                </li>
+                <li onclick="showSection('followups', this)">
+                    <i class="fas fa-clock"></i> Follow-ups
+                </li>
+                <li onclick="showSection('payments', this)">
+                    <i class="fas fa-credit-card"></i> Payments
+                </li>
+                <li onclick="showSection('promises', this)">
+                    <i class="fas fa-handshake"></i> Promises
+                </li>
+                <li onclick="showSection('reports', this)">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </li>
+                <li onclick="showSection('settings', this)">
+                    <i class="fas fa-cog"></i> Settings
+                </li>
+            </ul>
+
+            <div class="logout-wrapper">
+                <a href="#" id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2>Telecaller Dashboard</h2>
+                    <span class="status-badge active">Online</span>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-phone"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Calls</h3>
+                            <p id="totalCalls">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-info">
+                            <h3>Connected</h3>
+                            <p id="connectedCalls">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                        <div class="stat-info">
+                            <h3>Follow-ups</h3>
+                            <p id="followupCalls">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-rupee-sign"></i></div>
+                        <div class="stat-info">
+                            <h3>Collections</h3>
+                            <p>₹<span id="callCollections">0</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Call Status</h3>
+                        <div style="height: 250px;"><canvas id="callStatusChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Hourly Activity</h3>
+                        <div style="height: 250px;"><canvas id="hourlyChart"></canvas></div>
+                    </div>
+                    <div class="chart-card full-width">
+                        <h3>Daily Call Trend</h3>
+                        <div style="height: 300px;"><canvas id="callTrendChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Today's Call List</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Society</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="todayCalls"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Calls Section -->
+            <section id="calls" class="section">
+                <div class="section-header">
+                    <h2>Call List</h2>
+                    <div class="search-box">
+                        <input type="text" id="callSearch" placeholder="Search by name or phone..." onkeyup="searchCalls()">
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Society</th>
+                                <th>Amount</th>
+                                <th>Last Call</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="callListTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Follow-ups Section -->
+            <section id="followups" class="section">
+                <div class="section-header">
+                    <h2>Follow-up Calls</h2>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Society</th>
+                                <th>Follow-up Date</th>
+                                <th>Follow-up Time</th>
+                                <th>Reason</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="followupsTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Payments Section -->
+            <section id="payments" class="section">
+                <div class="section-header">
+                    <h2>Payment Follow-ups</h2>
+                    <button onclick="openModal('paymentModal')">
+                        <i class="fas fa-plus"></i> Record Payment
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Mode</th>
+                                <th>Promise Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Promises Section -->
+            <section id="promises" class="section">
+                <div class="section-header">
+                    <h2>Promise to Pay</h2>
+                    <button onclick="openModal('promiseModal')">
+                        <i class="fas fa-plus"></i> Add Promise
+                    </button>
+                </div>
+
+                <div class="grid-container" id="promisesGrid"></div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="section">
+                <div class="section-header">
+                    <h2>Reports</h2>
+                </div>
+                <div class="grid-container">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-phone"></i></div>
+                            <h3>Call Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Daily call statistics</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('calls')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-handshake"></i></div>
+                            <h3>Promise Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Promise to pay tracking</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('promises')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-credit-card"></i></div>
+                            <h3>Payment Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Collection summary</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('payments')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="section">
+                <div class="section-header">
+                    <h2>Settings</h2>
+                </div>
+                <div class="info-card" style="max-width:500px;">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-user-cog"></i></div>
+                        <h3>Profile Settings</h3>
+                    </div>
+                    <div class="card-body">
+                        <input type="text" id="callerName" value="Priya Patel" placeholder="Full Name">
+                        <input type="email" id="callerEmail" value="priya@finiorevive.com" placeholder="Email">
+                        <input type="text" id="callerPhone" value="9876543211" placeholder="Phone">
+                        <input type="password" id="callerPassword" placeholder="New Password">
+                    </div>
+                    <div class="card-footer">
+                        <button onclick="saveSettings()"><i class="fas fa-save"></i> Save Changes</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Record Payment</h3>
+                <span class="close" onclick="closeModal('paymentModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <select id="paymentDefaulter">
+                    <option value="">Select Defaulter</option>
+                </select>
+                <input type="number" id="paymentAmount" placeholder="Amount">
+                <select id="paymentMode">
+                    <option value="Cash">Cash</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Card">Card</option>
+                    <option value="Net Banking">Net Banking</option>
+                </select>
+                <input type="date" id="paymentDate">
+                <input type="date" id="promiseDate" placeholder="Promise Date (if any)">
+                <textarea id="paymentNotes" placeholder="Notes" rows="2"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button onclick="recordPayment()">Record Payment</button>
+                <button onclick="closeModal('paymentModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Promise Modal -->
+    <div id="promiseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Promise to Pay</h3>
+                <span class="close" onclick="closeModal('promiseModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <select id="promiseDefaulter">
+                    <option value="">Select Defaulter</option>
+                </select>
+                <input type="number" id="promiseAmount" placeholder="Promise Amount">
+                <input type="date" id="promiseDate" placeholder="Promise Date">
+                <input type="time" id="promiseTime" placeholder="Promise Time">
+                <textarea id="promiseNotes" placeholder="Notes" rows="2"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button onclick="addPromise()">Add Promise</button>
+                <button onclick="closeModal('promiseModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="telecaller.js"></script>
+    <script type="module">
+        import { guardPage, attachLogout } from "./auth-guard.js";
+        guardPage("telecaller");
+        attachLogout("logoutBtn");
+    </script>
+</body>
+</html>

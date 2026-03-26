@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Function to get current user role
+    function getRole() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+    }
+    
+    // Check if user is authenticated
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    // Role checkers
+    function isAdmin() { return isAuth() && getRole() == 'superadmin'; }
+    function isBdm() { return isAuth() && getRole() == 'bdm'; }
+    function isAgent() { return isAuth() && getRole() == 'agent'; }
+    function isTelecaller() { return isAuth() && getRole() == 'telecaller'; }
+    function isLegal() { return isAuth() && getRole() == 'legal'; }
+    function isAccounts() { return isAuth() && getRole() == 'accounts'; }
+
+    // Users Collection
+    match /users/{userId} {
+      // User can read their own profile, or admins can read/write all
+      // For MVP ease, let any authenticated user read user profiles (needed for BDM seeing Agents)
+      allow read: if isAuth();
+      // Only the user themselves or admin can create/update
+      allow write: if isAuth() && (request.auth.uid == userId || isAdmin());
+    }
+
+    // Societies
+    match /societies/{docId} {
+      allow read: if isAuth();
+      allow write: if isAdmin();
+    }
+    
+    // Society Assignments (mappings)
+    match /society_assignments/{docId} {
+      allow read: if isAuth();
+      // Admin can map anything, BDM might map agents to their societies
+      allow write: if isAdmin() || isBdm(); 
+    }
+
+    // Members (Defaulters)
+    match /members/{docId} {
+      allow read: if isAuth();
+      allow write: if isAuth(); // For MVP, let any agent/admin/telecaller update member statuses
+    }
+
+    // Notices
+    match /notices/{docId} {
+      allow read: if isAuth();
+      allow write: if isAdmin() || isLegal();
+    }
+
+    // Recoveries
+    match /recoveries/{docId} {
+      allow read: if isAuth();
+      allow write: if isAdmin() || isAccounts() || isTelecaller() || isAgent() || isBdm();
+    }
+    
+  }
+}

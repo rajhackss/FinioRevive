@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinioRevive | Legal Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="legal.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-gavel"></i>
+                <h2>FinioRevive</h2>
+            </div>
+            <div class="role-badge">
+                <i class="fas fa-balance-scale"></i> Legal
+            </div>
+
+            <ul>
+                <li onclick="showSection('dashboard', this)" class="active">
+                    <i class="fas fa-home"></i> Dashboard
+                </li>
+                <li onclick="showSection('cases', this)">
+                    <i class="fas fa-folder"></i> Legal Cases
+                </li>
+                <li onclick="showSection('notices', this)">
+                    <i class="fas fa-envelope"></i> Notices
+                </li>
+                <li onclick="showSection('hearings', this)">
+                    <i class="fas fa-calendar"></i> Hearings
+                </li>
+                <li onclick="showSection('documents', this)">
+                    <i class="fas fa-file-alt"></i> Documents
+                </li>
+                <li onclick="showSection('defaulters', this)">
+                    <i class="fas fa-users"></i> Defaulters
+                </li>
+                <li onclick="showSection('reports', this)">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </li>
+                <li onclick="showSection('settings', this)">
+                    <i class="fas fa-cog"></i> Settings
+                </li>
+            </ul>
+
+            <div class="logout-wrapper">
+                <a href="#" id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2>Legal Dashboard</h2>
+                    <span class="status-badge active">Active</span>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-folder"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Cases</h3>
+                            <p id="totalCases">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-gavel"></i></div>
+                        <div class="stat-info">
+                            <h3>Active Cases</h3>
+                            <p id="activeCases">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-calendar"></i></div>
+                        <div class="stat-info">
+                            <h3>Hearings</h3>
+                            <p id="totalHearings">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-info">
+                            <h3>Resolved</h3>
+                            <p id="resolvedCases">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Case Status</h3>
+                        <div style="height: 250px;"><canvas id="caseChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Notice Status</h3>
+                        <div style="height: 250px;"><canvas id="noticeChart"></canvas></div>
+                    </div>
+                    <div class="chart-card full-width">
+                        <h3>Monthly Hearings</h3>
+                        <div style="height: 300px;"><canvas id="hearingChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Upcoming Hearings</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Case No.</th>
+                                    <th>Defaulter</th>
+                                    <th>Court</th>
+                                </tr>
+                            </thead>
+                            <tbody id="upcomingHearings"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cases Section -->
+            <section id="cases" class="section">
+                <div class="section-header">
+                    <h2>Legal Cases</h2>
+                    <button onclick="openModal('caseModal')">
+                        <i class="fas fa-plus"></i> Add Case
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Case No.</th>
+                                <th>Defaulter</th>
+                                <th>Society</th>
+                                <th>Amount</th>
+                                <th>Filed Date</th>
+                                <th>Status</th>
+                                <th>Next Hearing</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="caseTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Notices Section -->
+            <section id="notices" class="section">
+                <div class="section-header">
+                    <h2>Legal Notices</h2>
+                    <button onclick="openModal('noticeModal')">
+                        <i class="fas fa-plus"></i> Add Notice
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Notice No.</th>
+                                <th>Defaulter</th>
+                                <th>Society</th>
+                                <th>Issue Date</th>
+                                <th>Response Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="noticeTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Hearings Section -->
+            <section id="hearings" class="section">
+                <div class="section-header">
+                    <h2>Court Hearings</h2>
+                    <button onclick="openModal('hearingModal')">
+                        <i class="fas fa-plus"></i> Schedule Hearing
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Case No.</th>
+                                <th>Defaulter</th>
+                                <th>Court</th>
+                                <th>Judge</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hearingTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Documents Section -->
+            <section id="documents" class="section">
+                <div class="section-header">
+                    <h2>Legal Documents</h2>
+                    <button onclick="openModal('documentModal')">
+                        <i class="fas fa-plus"></i> Upload Document
+                    </button>
+                </div>
+
+                <div class="grid-container" id="documentGrid"></div>
+            </section>
+
+            <!-- Defaulters Section -->
+            <section id="defaulters" class="section">
+                <div class="section-header">
+                    <h2>Legal Defaulters</h2>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact</th>
+                                <th>Society</th>
+                                <th>Amount</th>
+                                <th>Case Status</th>
+                                <th>Notice Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="legalDefaulterTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="section">
+                <div class="section-header">
+                    <h2>Legal Reports</h2>
+                </div>
+                <div class="grid-container" style="grid-template-columns: repeat(3,1fr);">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-gavel"></i></div>
+                            <h3>Case Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Summary of all legal cases</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('cases')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-envelope"></i></div>
+                            <h3>Notice Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Notice issuance summary</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('notices')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-calendar"></i></div>
+                            <h3>Hearing Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Hearing schedule summary</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('hearings')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="section">
+                <div class="section-header">
+                    <h2>Settings</h2>
+                </div>
+                <div class="info-card" style="max-width:500px;">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-user-cog"></i></div>
+                        <h3>Profile Settings</h3>
+                    </div>
+                    <div class="card-body">
+                        <input type="text" id="legalName" value="Adv. Sharma" placeholder="Full Name">
+                        <input type="email" id="legalEmail" value="legal@finiorevive.com" placeholder="Email">
+                        <input type="text" id="legalPhone" value="9876543210" placeholder="Phone">
+                        <input type="text" id="legalBar" value="BAR/1234/2020" placeholder="Bar Council No.">
+                        <input type="password" id="legalPassword" placeholder="New Password">
+                    </div>
+                    <div class="card-footer">
+                        <button onclick="saveSettings()"><i class="fas fa-save"></i> Save Changes</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Case Modal -->
+    <div id="caseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Legal Case</h3>
+                <span class="close" onclick="closeModal('caseModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="caseNumber" placeholder="Case Number">
+                <input type="text" id="caseDefaulter" placeholder="Defaulter Name">
+                <input type="text" id="caseSociety" placeholder="Society Name">
+                <input type="number" id="caseAmount" placeholder="Claim Amount">
+                <input type="date" id="caseFiledDate" placeholder="Filed Date">
+                <select id="caseCourt">
+                    <option value="Civil Court">Civil Court</option>
+                    <option value="High Court">High Court</option>
+                    <option value="Consumer Court">Consumer Court</option>
+                    <option value="Tribunal">Tribunal</option>
+                </select>
+                <select id="caseStatus">
+                    <option value="Filed">Filed</option>
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Dismissed">Dismissed</option>
+                </select>
+                <input type="date" id="caseNextHearing" placeholder="Next Hearing Date">
+                <textarea id="caseNotes" placeholder="Case Notes" rows="2"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button onclick="addCase()">Add Case</button>
+                <button onclick="closeModal('caseModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notice Modal -->
+    <div id="noticeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Legal Notice</h3>
+                <span class="close" onclick="closeModal('noticeModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="noticeNumber" placeholder="Notice Number">
+                <input type="text" id="noticeDefaulter" placeholder="Defaulter Name">
+                <input type="text" id="noticeSociety" placeholder="Society Name">
+                <input type="date" id="noticeIssueDate" placeholder="Issue Date">
+                <input type="date" id="noticeResponseDate" placeholder="Response Date">
+                <select id="noticeType">
+                    <option value="Demand Notice (D1)">Demand Notice (D1)</option>
+                    <option value="Final Notice (D2)">Final Notice (D2)</option>
+                    <option value="Legal Notice (D3)">Legal Notice (D3)</option>
+                    <option value="Summons">Summons</option>
+                </select>
+                <select id="noticeStatus">
+                    <option value="Issued">Issued</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Responded">Responded</option>
+                    <option value="Expired">Expired</option>
+                </select>
+                <input type="file" id="noticeFile" accept=".pdf,.doc,.docx">
+                <textarea id="noticeNotes" placeholder="Notice Notes" rows="2"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button onclick="addNotice()">Add Notice</button>
+                <button onclick="closeModal('noticeModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hearing Modal -->
+    <div id="hearingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Schedule Hearing</h3>
+                <span class="close" onclick="closeModal('hearingModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="hearingCase" placeholder="Case Number">
+                <input type="text" id="hearingDefaulter" placeholder="Defaulter Name">
+                <input type="date" id="hearingDate" placeholder="Hearing Date">
+                <input type="time" id="hearingTime" placeholder="Hearing Time">
+                <input type="text" id="hearingCourt" placeholder="Court Name">
+                <input type="text" id="hearingJudge" placeholder="Judge Name">
+                <select id="hearingStatus">
+                    <option value="Scheduled">Scheduled</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Adjourned">Adjourned</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+                <textarea id="hearingNotes" placeholder="Hearing Notes" rows="2"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button onclick="addHearing()">Schedule Hearing</button>
+                <button onclick="closeModal('hearingModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Modal -->
+    <div id="documentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Upload Document</h3>
+                <span class="close" onclick="closeModal('documentModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="docName" placeholder="Document Name">
+                <input type="text" id="docCase" placeholder="Case Number">
+                <select id="docType">
+                    <option value="Petition">Petition</option>
+                    <option value="Affidavit">Affidavit</option>
+                    <option value="Evidence">Evidence</option>
+                    <option value="Order">Order</option>
+                    <option value="Notice">Notice</option>
+                </select>
+                <input type="date" id="docDate" placeholder="Document Date">
+                <input type="file" id="docFile" accept=".pdf,.doc,.docx">
+                <textarea id="docNotes" placeholder="Notes" rows="2"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button onclick="addDocument()">Upload Document</button>
+                <button onclick="closeModal('documentModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="legal.js"></script>
+    <script type="module">
+        import { guardPage, attachLogout } from "./auth-guard.js";
+        guardPage("legal");
+        attachLogout("logoutBtn");
+    </script>
+</body>
+</html>

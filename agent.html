@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinioRevive | Agent Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="agent.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h2>FinioRevive</h2>
+            </div>
+            <div class="role-badge">
+                <i class="fas fa-user-check"></i> Field Agent
+            </div>
+
+            <ul>
+                <li onclick="showSection('dashboard', this)" class="active">
+                    <i class="fas fa-home"></i> Dashboard
+                </li>
+                <li onclick="showSection('visits', this)">
+                    <i class="fas fa- walking"></i> Visits
+                </li>
+                <li onclick="showSection('defaulters', this)">
+                    <i class="fas fa-users"></i> My Defaulters
+                </li>
+                <li onclick="showSection('collections', this)">
+                    <i class="fas fa-hand-holding-usd"></i> Collections
+                </li>
+                <li onclick="showSection('schedule', this)">
+                    <i class="fas fa-calendar"></i> Schedule
+                </li>
+                <li onclick="showSection('reports', this)">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </li>
+                <li onclick="showSection('settings', this)">
+                    <i class="fas fa-cog"></i> Settings
+                </li>
+            </ul>
+
+            <div class="logout-wrapper">
+                <a href="#" id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2>Agent Dashboard</h2>
+                    <span class="status-badge active">On Field</span>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <h3>Assigned Defaulters</h3>
+                            <p id="assignedDefaulters">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-info">
+                            <h3>Visits Today</h3>
+                            <p id="visitsToday">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-rupee-sign"></i></div>
+                        <div class="stat-info">
+                            <h3>Collected Today</h3>
+                            <p>₹<span id="collectedToday">0</span></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                        <div class="stat-info">
+                            <h3>Pending Follow-up</h3>
+                            <p id="pendingFollowup">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Collection Progress</h3>
+                        <div style="height: 250px;"><canvas id="collectionChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Visit Status</h3>
+                        <div style="height: 250px;"><canvas id="visitChart"></canvas></div>
+                    </div>
+                    <div class="chart-card full-width">
+                        <h3>Weekly Collection Trend</h3>
+                        <div style="height: 300px;"><canvas id="trendChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Today's Visit Schedule</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Defaulter</th>
+                                    <th>Society</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="visitSchedule"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visits Section -->
+            <section id="visits" class="section">
+                <div class="section-header">
+                    <h2>Visit Management</h2>
+                    <button onclick="openModal('visitModal')">
+                        <i class="fas fa-plus"></i> Log Visit
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Defaulter</th>
+                                <th>Society</th>
+                                <th>Purpose</th>
+                                <th>Outcome</th>
+                                <th>Next Visit</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="visitsTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Defaulters Section -->
+            <section id="defaulters" class="section">
+                <div class="section-header">
+                    <h2>My Defaulters</h2>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact</th>
+                                <th>Society</th>
+                                <th>Amount</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Last Visit</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="agentDefaulterTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Collections Section -->
+            <section id="collections" class="section">
+                <div class="section-header">
+                    <h2>Collection Records</h2>
+                    <button onclick="openModal('collectionModal')">
+                        <i class="fas fa-plus"></i> Add Collection
+                    </button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-calendar-week"></i></div>
+                        <div class="stat-info">
+                            <h3>This Week</h3>
+                            <p>₹<span id="weeklyCollection">0</span></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <div class="stat-info">
+                            <h3>This Month</h3>
+                            <p>₹<span id="monthlyCollection">0</span></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="stat-info">
+                            <h3>Target Achieved</h3>
+                            <p><span id="targetAchieved">0</span>%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Defaulter</th>
+                                <th>Amount</th>
+                                <th>Mode</th>
+                                <th>Receipt No</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="collectionsTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Schedule Section -->
+            <section id="schedule" class="section">
+                <div class="section-header">
+                    <h2>Visit Schedule</h2>
+                </div>
+
+                <div class="grid-container" id="scheduleGrid"></div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="section">
+                <div class="section-header">
+                    <h2>Reports</h2>
+                </div>
+                <div class="grid-container">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-calendar-day"></i></div>
+                            <h3>Daily Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Today's visit and collection summary</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('daily')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-calendar-week"></i></div>
+                            <h3>Weekly Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Weekly performance report</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('weekly')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <h3>Monthly Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Monthly collection summary</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('monthly')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="section">
+                <div class="section-header">
+                    <h2>Settings</h2>
+                </div>
+                <div class="info-card" style="max-width:500px;">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-user-cog"></i></div>
+                        <h3>Profile Settings</h3>
+                    </div>
+                    <div class="card-body">
+                        <input type="text" id="agentName" value="Rahul Sharma" placeholder="Full Name">
+                        <input type="email" id="agentEmail" value="rahul@finiorevive.com" placeholder="Email">
+                        <input type="text" id="agentPhone" value="9876543210" placeholder="Phone">
+                        <input type="text" id="agentSociety" value="Green Valley" placeholder="Assigned Society">
+                        <input type="password" id="agentPassword" placeholder="New Password">
+                    </div>
+                    <div class="card-footer">
+                        <button onclick="saveSettings()"><i class="fas fa-save"></i> Save Changes</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Visit Modal -->
+    <div id="visitModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Log Visit</h3>
+                <span class="close" onclick="closeModal('visitModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <select id="visitDefaulter">
+                    <option value="">Select Defaulter</option>
+                </select>
+                <input type="date" id="visitDate">
+                <input type="time" id="visitTime">
+                <textarea id="visitPurpose" placeholder="Purpose of Visit" rows="3"></textarea>
+                <select id="visitOutcome">
+                    <option value="Met">Met</option>
+                    <option value="Not Met">Not Met</option>
+                    <option value="Partial Payment">Partial Payment</option>
+                    <option value="Full Payment">Full Payment</option>
+                    <option value="Promise">Promise to Pay</option>
+                </select>
+                <input type="date" id="nextVisit" placeholder="Next Visit Date">
+                <textarea id="visitNotes" placeholder="Visit Notes" rows="2"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button onclick="addVisit()">Save Visit</button>
+                <button onclick="closeModal('visitModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Collection Modal -->
+    <div id="collectionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Collection</h3>
+                <span class="close" onclick="closeModal('collectionModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <select id="collectionDefaulter">
+                    <option value="">Select Defaulter</option>
+                </select>
+                <input type="number" id="collectionAmount" placeholder="Amount Collected">
+                <select id="collectionMode">
+                    <option value="Cash">Cash</option>
+                    <option value="Cheque">Cheque</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Net Banking">Net Banking</option>
+                </select>
+                <input type="text" id="receiptNo" placeholder="Receipt Number">
+                <input type="date" id="collectionDate">
+                <textarea id="collectionNotes" placeholder="Notes" rows="2"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button onclick="addCollection()">Add Collection</button>
+                <button onclick="closeModal('collectionModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="agent.js"></script>
+    <script type="module">
+        import { guardPage, attachLogout } from "./auth-guard.js";
+        guardPage("agent");
+        attachLogout("logoutBtn");
+    </script>
+</body>
+</html>

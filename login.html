@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FinioRevive | Auth</title>
+    <link rel="stylesheet" href="login_style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-chart-line"></i> FinioRevive</h1>
+            <p>Recovery Management System</p>
+        </div>
+
+        <!-- Card -->
+        <div class="card">
+
+            <h2 id="title">Welcome Back</h2>
+            <p class="subtitle" id="subtitle">Sign in to your account to continue.</p>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" type="button" id="tabLogin">Login</button>
+                <button class="tab" type="button" id="tabRegister">Register</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="loginForm">
+                <label>Email</label>
+                <input type="email" id="loginEmail" placeholder="Enter Email" required>
+
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter Password" required>
+
+                <button type="submit" class="btn">Sign In</button>
+            </form>
+
+            <!-- REGISTER FORM -->
+            <form id="registerForm" class="hidden">
+                <label>Email</label>
+                <input type="email" id="regEmail" placeholder="Enter Email" required>
+                
+                <label>Password</label>
+                <input type="password" id="regPassword" placeholder="Enter Password" required>
+                
+                <label>Full Name</label>
+                <input type="text" id="regName" placeholder="Enter Full Name" required>
+                
+                <label>Role</label>
+                <select id="regRole" required>
+                    <option value="">-- Select Role --</option>
+                    <option value="superadmin">Super Admin</option>
+                    <option value="bdm">BDM</option>
+                    <option value="agent">Agent</option>
+                    <option value="telecaller">Telecaller</option>
+                    <option value="legal">Legal</option>
+                    <option value="accounts">Accounts</option>
+                </select>
+
+                <button type="submit" class="btn">Register</button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Entry Point for Authentication logic pointing to Firebase -->
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>

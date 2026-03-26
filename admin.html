@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinioRevive | Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h2>FinioRevive</h2>
+            </div>
+            <div class="role-badge">
+                <i class="fas fa-crown"></i> Super Admin
+            </div>
+
+            <ul>
+                <li onclick="showSection('dashboard', this)" class="active">
+                    <i class="fas fa-home"></i> Dashboard
+                </li>
+                <li onclick="showSection('defaulters', this)">
+                    <i class="fas fa-users"></i> Defaulters
+                </li>
+                <li onclick="showSection('societies', this)">
+                    <i class="fas fa-building"></i> Societies
+                </li>
+                <li onclick="showSection('agents', this)">
+                    <i class="fas fa-user-tie"></i> Agents
+                </li>
+                <li onclick="showSection('team', this)">
+                    <i class="fas fa-users-cog"></i> Team
+                </li>
+                <li onclick="showSection('reports', this)">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </li>
+                <li onclick="showSection('settings', this)">
+                    <i class="fas fa-cog"></i> Settings
+                </li>
+            </ul>
+
+            <div class="logout-wrapper">
+                <a href="#" id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2>Dashboard Overview</h2>
+                    <span class="status-badge active">Live</span>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Defaulters</h3>
+                            <p id="totalDefaulters">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-building"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Societies</h3>
+                            <p id="totalSocieties">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-user-tie"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Agents</h3>
+                            <p id="totalAgents">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-rupee-sign"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Recovery</h3>
+                            <p>₹<span id="totalRecovery">0</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Recovery Overview</h3>
+                        <div style="height: 250px;"><canvas id="recoveryChart"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Status Distribution</h3>
+                        <div style="height: 250px;"><canvas id="statusChart"></canvas></div>
+                    </div>
+                    <div class="chart-card full-width">
+                        <h3>Monthly Trend</h3>
+                        <div style="height: 300px;"><canvas id="trendChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Recent Defaulters</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Society</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentDefaulters"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Defaulters Section -->
+            <section id="defaulters" class="section">
+                <div class="section-header">
+                    <h2>Defaulter Management</h2>
+                    <button onclick="openModal('defaulterModal')">
+                        <i class="fas fa-plus"></i> Add Defaulter
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact</th>
+                                <th>Society</th>
+                                <th>Amount</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="defaulterTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Societies Section -->
+            <section id="societies" class="section">
+                <div class="section-header">
+                    <h2>Society Management</h2>
+                    <button onclick="openModal('societyModal')">
+                        <i class="fas fa-plus"></i> Add Society
+                    </button>
+                </div>
+
+                <div class="grid-container" id="societiesGrid"></div>
+            </section>
+
+            <!-- Agents Section -->
+            <section id="agents" class="section">
+                <div class="section-header">
+                    <h2>Agent Management</h2>
+                    <button onclick="openModal('agentModal')">
+                        <i class="fas fa-plus"></i> Add Agent
+                    </button>
+                </div>
+
+                <div class="grid-container" id="agentsGrid"></div>
+            </section>
+
+            <!-- Team Section -->
+            <section id="team" class="section">
+                <div class="section-header">
+                    <h2>Team Management</h2>
+                    <button onclick="openModal('teamModal')">
+                        <i class="fas fa-user-plus"></i> Add Team Member
+                    </button>
+                </div>
+
+                <div class="grid-container" id="teamGrid"></div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="section">
+                <div class="section-header">
+                    <h2>Reports</h2>
+                </div>
+                <div class="grid-container">
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-calendar-day"></i></div>
+                            <h3>Daily Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>View today's recovery statistics</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('daily')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-calendar-week"></i></div>
+                            <h3>Weekly Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>View weekly recovery statistics</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('weekly')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <h3>Monthly Report</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>View monthly recovery statistics</p>
+                        </div>
+                        <div class="card-footer">
+                            <button onclick="generateReport('monthly')"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="section">
+                <div class="section-header">
+                    <h2>Settings</h2>
+                </div>
+                <div class="info-card" style="max-width:500px;">
+                    <div class="card-header">
+                        <div class="card-icon"><i class="fas fa-user-cog"></i></div>
+                        <h3>Profile Settings</h3>
+                    </div>
+                    <div class="card-body">
+                        <input type="text" id="adminUsername" value="Admin User" placeholder="Username">
+                        <input type="email" id="adminEmail" value="admin@finiorevive.com" placeholder="Email">
+                        <input type="password" id="adminPassword" placeholder="New Password">
+                    </div>
+                    <div class="card-footer">
+                        <button onclick="saveSettings()"><i class="fas fa-save"></i> Save Changes</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Defaulter Modal -->
+    <div id="defaulterModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Defaulter</h3>
+                <span class="close" onclick="closeModal('defaulterModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="defaulterName" placeholder="Full Name">
+                <input type="text" id="defaulterContact" placeholder="Contact Number">
+                <input type="text" id="defaulterSociety" placeholder="Society Name">
+                <input type="number" id="defaulterAmount" placeholder="Amount Due">
+                <input type="date" id="defaulterDueDate">
+                <select id="defaulterStatus">
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Recovered">Recovered</option>
+                    <option value="Legal">Legal</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="addDefaulter()">Add Defaulter</button>
+                <button onclick="closeModal('defaulterModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Society Modal -->
+    <div id="societyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Society</h3>
+                <span class="close" onclick="closeModal('societyModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="societyName" placeholder="Society Name">
+                <input type="text" id="societyAddress" placeholder="Address">
+                <input type="text" id="societyCity" placeholder="City">
+                <input type="number" id="societyUnits" placeholder="Total Units">
+                <select id="societyStatus">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="addSociety()">Add Society</button>
+                <button onclick="closeModal('societyModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agent Modal -->
+    <div id="agentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Agent</h3>
+                <span class="close" onclick="closeModal('agentModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="agentName" placeholder="Full Name">
+                <input type="email" id="agentEmail" placeholder="Email">
+                <input type="text" id="agentPhone" placeholder="Phone Number">
+                <input type="text" id="agentSociety" placeholder="Assigned Society">
+                <select id="agentStatus">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="addAgent()">Add Agent</button>
+                <button onclick="closeModal('agentModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Modal -->
+    <div id="teamModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Team Member</h3>
+                <span class="close" onclick="closeModal('teamModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="teamName" placeholder="Full Name">
+                <input type="email" id="teamEmail" placeholder="Email">
+                <input type="text" id="teamPhone" placeholder="Phone Number">
+                <select id="teamRole">
+                    <option value="BDM">BDM</option>
+                    <option value="Agent">Agent</option>
+                    <option value="Telecaller">Telecaller</option>
+                    <option value="Legal">Legal</option>
+                    <option value="Accounts">Accounts</option>
+                </select>
+                <select id="teamStatus">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="addTeamMember()">Add Member</button>
+                <button onclick="closeModal('teamModal')" class="cancel-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { guardPage, attachLogout } from "./auth-guard.js";
+        guardPage("superadmin");
+        attachLogout("logoutBtn");
+    </script>
+    <script type="module" src="admin.js"></script>
+</body>
+</html>

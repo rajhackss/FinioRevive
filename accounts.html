@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinioRevive | Accounts Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <h2>FinioRevive</h2>
+            </div>
+            <div class="role-badge">
+                <i class="fas fa-calculator"></i> Accounts
+            </div>
+
+            <ul>
+                <li onclick="showSection('dashboard', this)" class="active"><i class="fas fa-home"></i> Dashboard</li>
+                <li onclick="showSection('recoveries', this)"><i class="fas fa-hand-holding-usd"></i> Recoveries Check</li>
+                <li onclick="showSection('payouts', this)"><i class="fas fa-money-check-alt"></i> Commission Payouts</li>
+            </ul>
+
+            <div class="logout-wrapper">
+                <a href="#" id="logoutBtn" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2>Accounts Dashboard</h2>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-cash-register"></i></div>
+                        <div class="stat-info">
+                            <h3>Total Recoveries</h3>
+                            <p>₹<span id="totalRecoveries">0</span></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-check-double"></i></div>
+                        <div class="stat-info">
+                            <h3>Pending Reconciliations</h3>
+                            <p id="pendingRecon">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h3>Recent Recoveries to Verify</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Logged By</th>
+                                    <th>Amount</th>
+                                    <th>Mode</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentRecoveries"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recoveries Check Section -->
+            <section id="recoveries" class="section">
+                <div class="section-header">
+                    <h2>Reconciliation</h2>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Agent / Telecaller</th>
+                                <th>Amount</th>
+                                <th>Mode</th>
+                                <th>Receipt No</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reconciliationTable"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Commission Payouts -->
+            <section id="payouts" class="section">
+                <div class="section-header">
+                    <h2>Commission Payouts</h2>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Agent / BDM</th>
+                                <th>Role</th>
+                                <th>Total Assigned Recoveries</th>
+                                <th>Calculated Commission (5%)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="commissionTable"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="accounts.js"></script>
+    <script type="module">
+        import { guardPage, attachLogout } from "./auth-guard.js";
+        guardPage("accounts");
+        attachLogout("logoutBtn");
+    </script>
+</body>
+</html>

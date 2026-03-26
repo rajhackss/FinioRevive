@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinioRevive - Smart Recovery Management System</title>
+    
+    <!-- Preload background image for faster loading -->
+    <link rel="preload" href="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=70" as="image">
+    
+    <!-- Font Awesome (load async) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>FinioRevive</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#solutions">Solutions</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="login.html" class="login-btn">Login <i class="fas fa-arrow-right"></i></a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Creative Elements -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        
+        <!-- Creative animated shapes (CSS only, lightweight) -->
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-pulse"></span>
+                <span>AI-Powered Recovery System</span>
+            </div>
+            
+            <h1 class="hero-title">
+                <span class="gradient-text">Smart Recovery</span>
+                <br>Management System
+            </h1>
+            
+            <p class="hero-description">Streamline your debt recovery process with AI-powered analytics and real-time tracking. Increase efficiency by 300% with FinioRevive.</p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="500">0</span>
+                    <span class="stat-label">Active Users</span>
+                    <div class="stat-bar">
+                        <div class="stat-progress" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="50">0</span>
+                    <span class="stat-label">Recovery Agents</span>
+                    <div class="stat-bar">
+                        <div class="stat-progress" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="95">0</span>
+                    <span class="stat-label">Success Rate</span>
+                    <div class="stat-bar">
+                        <div class="stat-progress" style="width: 95%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <a href="login.html" class="btn-primary btn-pulse">Get Started <i class="fas fa-rocket"></i></a>
+                <a href="#features" class="btn-outline">Learn More <i class="fas fa-info-circle"></i></a>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Stats Bar (Creative) -->
+    <div class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stats-card">
+                    <i class="fas fa-building"></i>
+                    <div>
+                        <h3>500+</h3>
+                        <p>Partner Societies</p>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h3>10K+</h3>
+                        <p>Cases Handled</p>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <i class="fas fa-rupee-sign"></i>
+                    <div>
+                        <h3>₹50Cr+</h3>
+                    <p>Recovery Amount</p>
+                    </div>
+                </div>
+                <div class="stats-card">
+                    <i class="fas fa-smile"></i>
+                    <div>
+                        <h3>98%</h3>
+                        <p>Satisfaction Rate</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Why Choose Us</span>
+                <h2 class="section-title">Powerful <span>Features</span></h2>
+                <p class="section-subtitle">Everything you need to streamline your recovery process</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon-bg"></div>
+                        <i class="fas fa-robot feature-icon"></i>
+                    </div>
+                    <h3>AI-Powered Analytics</h3>
+                    <p>Predict recovery probabilities with machine learning algorithms that learn from every interaction.</p>
+                    <a href="#" class="feature-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon-bg"></div>
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                    </div>
+                    <h3>Secure & Compliant</h3>
+                    <p>Bank-grade security with complete regulatory compliance including GDPR and data protection laws.</p>
+                    <a href="#" class="feature-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon-bg"></div>
+                        <i class="fas fa-chart-line feature-icon"></i>
+                    </div>
+                    <h3>Real-time Tracking</h3>
+                    <p>Monitor recovery progress, agent performance, and collections in real-time with customizable dashboards.</p>
+                    <a href="#" class="feature-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon-bg"></div>
+                        <i class="fas fa-mobile-alt feature-icon"></i>
+                    </div>
+                    <h3>Mobile Ready</h3>
+                    <p>Access your dashboard on-the-go with our responsive mobile interface and dedicated agent mobile app.</p>
+                    <a href="#" class="feature-link">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section with Creative Layout -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <span class="section-tag">About Us</span>
+                    <h2>Leading the Future of <span>Recovery Management</span></h2>
+                    <p class="about-text">FinioRevive is a cutting-edge recovery management system trusted by over 500 organizations across India. Our platform combines advanced AI algorithms with intuitive design to streamline the entire recovery process.</p>
+                    
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <div class="feature-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4>AI-Powered Analytics</h4>
+                                <p>Predictive algorithms for better recovery</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4>Real-time Tracking</h4>
+                                <p>Monitor progress instantly</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4>Automated Workflow</h4>
+                                <p>Streamline your processes</p>
+                            </div>
+                        </div>
+                        <div class="about-feature">
+                            <div class="feature-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4>Regulatory Compliance</h4>
+                                <p>Always stay compliant</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-image-wrapper">
+                    <div class="about-image-shape"></div>
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=60" alt="Team working" loading="lazy">
+                    </div>
+                    <div class="experience-badge">
+                        <span class="years">5+</span>
+                        <span class="text">Years of Excellence</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="solutions">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Solutions</span>
+                <h2 class="section-title">Complete <span>Recovery Suite</span></h2>
+                <p class="section-subtitle">Tailored solutions for every role in your organization</p>
+            </div>
+
+            <div class="solutions-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Admin</h3>
+                    <p>Complete control with advanced analytics</p>
+                    <ul class="solution-features">
+                        <li><i class="fas fa-check"></i> Real-time dashboard</li>
+                        <li><i class="fas fa-check"></i> Team management</li>
+                        <li><i class="fas fa-check"></i> Advanced reporting</li>
+                    </ul>
+                    <a href="login.html" class="solution-link">Access <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>BDM</h3>
+                    <p>Manage societies and track commission</p>
+                    <ul class="solution-features">
+                        <li><i class="fas fa-check"></i> Society management</li>
+                        <li><i class="fas fa-check"></i> Agent assignment</li>
+                        <li><i class="fas fa-check"></i> Commission tracking</li>
+                    </ul>
+                    <a href="login.html" class="solution-link">Access <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3>Agent</h3>
+                    <p>Field-ready tools for recovery agents</p>
+                    <ul class="solution-features">
+                        <li><i class="fas fa-check"></i> Client directory</li>
+                        <li><i class="fas fa-check"></i> Visit scheduling</li>
+                        <li><i class="fas fa-check"></i> Collection tracking</li>
+                    </ul>
+                    <a href="login.html" class="solution-link">Access <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Telecaller</h3>
+                    <p>Efficient calling interface</p>
+                    <ul class="solution-features">
+                        <li><i class="fas fa-check"></i> Smart dialer</li>
+                        <li><i class="fas fa-check"></i> Call logging</li>
+                        <li><i class="fas fa-check"></i> Follow-up alerts</li>
+                    </ul>
+                    <a href="login.html" class="solution-link">Access <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Your Recovery Process?</h2>
+                <p>Join 500+ companies already using FinioRevive</p>
+                <div class="cta-buttons">
+                    <a href="login.html" class="btn-primary btn-large">Start Free Trial <i class="fas fa-rocket"></i></a>
+                    <a href="#" class="btn-outline btn-large">Schedule Demo <i class="fas fa-calendar-alt"></i></a>
+                </div>
+                <p class="cta-note">No credit card required • 14-day free trial</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i class="fas fa-chart-line"></i>
+                        <span>FinioRevive</span>
+                    </div>
+                    <p>Transforming debt recovery with intelligent technology and human expertise.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#solutions">Solutions</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                        <li><i class="fas fa-envelope"></i> info@finiorevive.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Mumbai, India</li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p>Subscribe for updates</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 FinioRevive. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script src="home.js"></script>
+</body>
+</html>
