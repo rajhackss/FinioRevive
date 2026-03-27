@@ -75,6 +75,14 @@ function populateDropdowns() {
             el.innerHTML += `<option value="${s.name}">${s.name}</option>`;
         });
     });
+
+    const agentDropdown = document.getElementById('defaulterAgent');
+    if (agentDropdown) {
+        agentDropdown.innerHTML = '<option value="">-- Assigned Agent --</option>';
+        agents.forEach(a => {
+            agentDropdown.innerHTML += `<option value="${a.name}">${a.name}</option>`;
+        });
+    }
 }
 
 // Show section
@@ -118,7 +126,8 @@ window.addDefaulter = async function() {
         society: document.getElementById('defaulterSociety').value,
         amount: parseFloat(document.getElementById('defaulterAmount').value),
         dueDate: document.getElementById('defaulterDueDate').value,
-        status: document.getElementById('defaulterStatus').value
+        status: document.getElementById('defaulterStatus').value,
+        agent: document.getElementById('defaulterAgent').value
     };
 
     if (Object.values(d).every(v => v !== "" && v !== undefined && !Number.isNaN(v))) {

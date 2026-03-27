@@ -345,7 +345,9 @@
                 <input type="text" id="agentName" placeholder="Full Name">
                 <input type="email" id="agentEmail" placeholder="Email">
                 <input type="text" id="agentPhone" placeholder="Phone Number">
-                <input type="text" id="agentSociety" placeholder="Assigned Society">
+                <select id="agentSociety">
+                    <option value="">-- Assigned Society --</option>
+                </select>
                 <select id="agentStatus">
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
@@ -368,7 +370,9 @@
             <div class="modal-body">
                 <input type="text" id="defaulterName" placeholder="Full Name">
                 <input type="text" id="defaulterContact" placeholder="Contact Number">
-                <input type="text" id="defaulterSociety" placeholder="Society Name">
+                <select id="defaulterSociety">
+                    <option value="">-- Select Society --</option>
+                </select>
                 <input type="number" id="defaulterAmount" placeholder="Amount Due">
                 <input type="date" id="defaulterDueDate">
                 <select id="defaulterStatus">
@@ -377,7 +381,9 @@
                     <option value="Recovered">Recovered</option>
                     <option value="Legal">Legal</option>
                 </select>
-                <input type="text" id="defaulterAgent" placeholder="Assigned Agent">
+                <select id="defaulterAgent">
+                    <option value="">-- Assigned Agent --</option>
+                </select>
             </div>
             <div class="modal-footer">
                 <button onclick="addDefaulter()">Add Defaulter</button>
